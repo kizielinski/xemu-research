@@ -46,7 +46,7 @@ static bool trace_writeout_enabled;
 
 enum {
     TRACE_BUF_LEN = 4096 * 64,
-    TRACE_BUF_FLUSH_THRESHOLD = TRACE_BUF_LEN / 4,
+    TRACE_BUF_FLUSH_THRESHOLD = TRACE_BUF_LEN / 4
 };
 
 uint8_t trace_buf[TRACE_BUF_LEN];
@@ -141,6 +141,7 @@ static void flush_trace_file(bool wait)
     }
 
     g_mutex_unlock(&trace_lock);
+    printf("File flushed!");
 }
 
 static void wait_for_trace_records_available(void)
@@ -157,6 +158,7 @@ static void wait_for_trace_records_available(void)
 static gpointer writeout_thread(gpointer opaque)
 {
     TraceRecord *recordptr;
+    printf("Thread writing!");
     union {
         TraceRecord rec;
         uint8_t bytes[sizeof(TraceRecord) + sizeof(uint64_t)];
@@ -199,6 +201,7 @@ static gpointer writeout_thread(gpointer opaque)
 void trace_record_write_u64(TraceBufferRecord *rec, uint64_t val)
 {
     rec->rec_off = write_to_buffer(rec->rec_off, &val, sizeof(uint64_t));
+    printf("Writing: %lu to file!", val);
 }
 
 void trace_record_write_str(TraceBufferRecord *rec, const char *s, uint32_t slen)
@@ -329,6 +332,7 @@ bool st_set_trace_file_enabled(bool enable)
 
         trace_fp = fopen(trace_file_name, "wb");
         if (!trace_fp) {
+            printf("trace enabled %s", trace_file_name);
             return was_enabled;
         }
 

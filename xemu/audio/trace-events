@@ -17,3 +17,6 @@ oss_version(int version) "OSS version = 0x%x"
 audio_timer_start(int interval) "interval %d ms"
 audio_timer_stop(void) ""
 audio_timer_delayed(int interval) "interval %d ms"
+
+# sdlaudio.c
+sdl_find_usage(int methodSteppedIn) "methodSteppedIn %d result"

@@ -829,9 +829,10 @@ static void audio_timer (void *opaque)
         trace_audio_timer_delayed(diff / SCALE_MS);
     }
     s->timer_last = now;
-
+    trace_audio_timer_start(100);
     audio_run(s, "timer");
     audio_reset_timer(s);
+    trace_audio_timer_stop();
 }
 
 /*

@@ -154,14 +154,17 @@ class Analyzer(object):
 
     def begin(self):
         """Called at the start of the trace."""
+        print("Trace started")
         pass
 
     def catchall(self, event, rec):
         """Called if no specific method for processing a trace event has been found."""
+        print("Found trace!")
         pass
 
     def end(self):
         """Called at the end of the trace."""
+        print("Trace ended")
         pass
 
 def process(events, log, analyzer, read_header=True):
@@ -210,8 +213,13 @@ def process(events, log, analyzer, read_header=True):
 
     analyzer.begin()
     fn_cache = {}
+    print(edict)
+    print(idtoname)
+    print(log)
     for rec in read_trace_records(edict, idtoname, log):
         event_num = rec[0]
+        print(rec[0])
+        print(event_num)
         event = edict[event_num]
         if event_num not in fn_cache:
             fn_cache[event_num] = build_fn(analyzer, event)

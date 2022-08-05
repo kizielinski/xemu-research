@@ -116,6 +116,7 @@ void select_soundhw(const char *optarg)
             l = !e ? strlen(p) : (size_t) (e - p);
 
             for (c = soundhw; c->name; ++c) {
+            printf("Device name: %s", c->name);
                 if (!strncmp(c->name, p, l) && !c->name[l]) {
                     c->enabled = 1;
                     break;

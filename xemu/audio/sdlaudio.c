@@ -377,6 +377,7 @@ static int sdl_init_out(HWVoiceOut *hw, struct audsettings *as,
     hw->samples = (spdo->has_buffer_count ? spdo->buffer_count : 4) *
         obt.samples;
 
+    trace_sdl_find_usage(hw->samples);
     sdl->initialized = 1;
     sdl->exit = 0;
     return 0;

@@ -53,13 +53,19 @@ foreach dir : [ '.' ] + trace_events_subdirs
   endif
 endforeach
 
+cat_prog =find_program('cat')
+
 trace_events_all = custom_target('trace-events-all',
                                  output: 'trace-events-all',
                                  input: trace_events_files,
-                                 command: [ 'cat', '@INPUT@' ],
-                                 capture: true,
+                                 command: [cat_prog, '@INPUT@', '@OUTPUT@'],
+                                 capture: false,
                                  install: true,
-                                 install_dir: qemu_datadir)
+                                 install_dir: 'subdir' )
+
+message('!')                               
+message(trace_events_files)
+message('!')
 
 foreach d : [
   ['generated-tcg-tracers.h', 'tcg-h'],
