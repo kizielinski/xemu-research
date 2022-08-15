@@ -1648,6 +1648,8 @@ static void voice_process(MCPXAPUState *d,
         return;
     }
 
+    //Check Below
+
     int bin[8];
     bin[0] = voice_get_mask(d, v, NV_PAVS_VOICE_CFG_VBIN,
                             NV_PAVS_VOICE_CFG_VBIN_V0BIN);
@@ -1704,8 +1706,8 @@ static void voice_process(MCPXAPUState *d,
     //        we should modify volume of bin6 and bin7 here.
 
     for (int i = 0; i < 8; i++) {
-        dbg->bin[i] = bin[i];
-        dbg->vol[i] = vol[i];
+        //dbg->bin[i] = bin[i];
+        //dbg->vol[i] = vol[i];
     }
 
     if (voice_should_mute(v)) {
@@ -1761,7 +1763,7 @@ static void voice_process(MCPXAPUState *d,
             mixbins[bin[b]][i] += g*samples[i][b % channels];
         }
     }
-
+    
     if (d->mon == MCPX_APU_DEBUG_MON_VP) {
         /* For VP mon, simply mix all voices together here, selecting the
          * maximal volume used for any given mixbin as the overall volume for
@@ -2072,7 +2074,9 @@ static int voice_get_samples(MCPXAPUState *d, uint32_t v, float samples[][2],
 static void se_frame(MCPXAPUState *d)
 {
     mcpx_apu_update_dsp_preference(d);
-    mcpx_debug_begin_frame();
+
+    //mcpx_debug_begin_frame(); 
+
     g_dbg.gp_realtime = d->gp.realtime;
     g_dbg.ep_realtime = d->ep.realtime;
 
@@ -2111,6 +2115,7 @@ static void se_frame(MCPXAPUState *d)
 
     memset(d->vp.sample_buf, 0, sizeof(d->vp.sample_buf));
 
+    //Put for loop back here
     /* Process all voices, mixing each into the affected MIXBINs */
     for (int list = 0; list < 3; list++) {
         hwaddr top, current, next;
@@ -2149,6 +2154,7 @@ static void se_frame(MCPXAPUState *d)
         }
     }
 
+    //Debug If
     if (d->mon == MCPX_APU_DEBUG_MON_VP) {
         /* Mix all voices together to hear any audible voice */
         int16_t isamp[NUM_SAMPLES_PER_FRAME * 2];
@@ -2241,9 +2247,8 @@ static void se_frame(MCPXAPUState *d)
 
     d->ep_frame_div++;
 
-    mcpx_debug_end_frame();
+    //mcpx_debug_end_frame();
 }
-
 /* Note: only supports millisecond resolution on Windows */
 static void sleep_ns(int64_t ns)
 {
