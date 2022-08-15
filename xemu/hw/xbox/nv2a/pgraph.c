@@ -2927,17 +2927,17 @@ DEF_METHOD(NV097, SET_BEGIN_END)
         }
 
         /* Face culling */
-        if (pg->regs[NV_PGRAPH_SETUPRASTER]
-                & NV_PGRAPH_SETUPRASTER_CULLENABLE) {
-            uint32_t cull_face = GET_MASK(pg->regs[NV_PGRAPH_SETUPRASTER],
-                                          NV_PGRAPH_SETUPRASTER_CULLCTRL);
-            assert(cull_face < ARRAY_SIZE(pgraph_cull_face_map));
-            glCullFace(pgraph_cull_face_map[cull_face]);
-            glEnable(GL_CULL_FACE);
-        } else {
-            glDisable(GL_CULL_FACE);
-        }
-
+        //if (pg->regs[NV_PGRAPH_SETUPRASTER]
+        //        & NV_PGRAPH_SETUPRASTER_CULLENABLE) {
+        //    uint32_t cull_face = GET_MASK(pg->regs[NV_PGRAPH_SETUPRASTER],
+        //                                  NV_PGRAPH_SETUPRASTER_CULLCTRL);
+        //    assert(cull_face < ARRAY_SIZE(pgraph_cull_face_map));
+        //    glCullFace(pgraph_cull_face_map[cull_face]);
+        //    glEnable(GL_CULL_FACE);
+        //} else {
+        //    glDisable(GL_CULL_FACE);
+        //}
+        
         /* Front-face select */
         glFrontFace(pg->regs[NV_PGRAPH_SETUPRASTER]
                         & NV_PGRAPH_SETUPRASTER_FRONTFACE
